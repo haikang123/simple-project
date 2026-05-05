@@ -28,8 +28,8 @@
 
 ### 1. 克隆项目
 ```
-git clone https://github.com/haikang123/AI-agent-demo.git
-cd AI-agent-demo
+git clone https://github.com/haikang123/simple-project.git
+cd simple-project
 ```
 
 ### 2. 安装依赖
