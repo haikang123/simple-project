@@ -1,10 +1,5 @@
-#最典型的长期记忆管理包括向量存储和知识图谱
-#这里我们两种都介绍一下，向量存储是目前最主流的长期记忆管理方式，知识图谱则适合结构化知识的存储和推理。
-# @tool 必须要"""  """注释，否则无法被识别为工具函数
-"""    基于向量的记忆存储
-根据向量数据库的检索，上下文智能匹配最相关的记忆片段。
-这种方法不依赖于严格的时间顺序，而是通过语义相关性进行匹配
-"""
+#最典型的长期记忆管理向量存储
+
 # 必需的基础库
 import os
 from dotenv import load_dotenv
@@ -41,7 +36,7 @@ model = ChatTongyi(
 )
 
 
-# 初始化【持久化】向量存储（重启不丢失）
+# 初始化向量存储（重启不丢失）
 embedding = DashScopeEmbeddings()
 recall_vector_store = Chroma(
     collection_name="user_long_term_memory",
@@ -120,7 +115,7 @@ model_with_tools = model.bind_tools(tools) #这是最关键的一步。把工具
 class State(MessagesState):
     recall_memories: List[str]
 
-#【前置节点】对话开始前，自动加载相关长期记忆
+# 前置节点:对话开始前，自动加载相关长期记忆
 def load_memories(state: State, config: RunnableConfig):
     """加载与当前对话相关的记忆
     Args:
@@ -139,7 +134,7 @@ def load_memories(state: State, config: RunnableConfig):
     recall_memories = search_recall_memory.invoke(convo_str, config)
     return {"recall_memories": recall_memories}
 
-#【核心节点】LLM决策生成，调用工具
+# 核心节点: LLM决策生成，调用工具
 def agent_node(state:State) :
     """
     Args:
@@ -155,7 +150,7 @@ def agent_node(state:State) :
     })
     return {"messages": [response]}
 
-#【路由节点】条件边判断：调用工具还是结束对话
+# 路由节点:条件边判断：调用工具还是结束对话
 def route_tools(state: State):
     """
     Args:
