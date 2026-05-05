@@ -1,0 +1,8 @@
+# 环境变量与密钥
+.env
+
+# Python 缓存
+__pycache__/
+
+# VS Code 配置
+.vscode/
